@@ -15,7 +15,10 @@ import {
   Text,
   useColorScheme,
   View,
+  Button,
 } from 'react-native';
+
+import analytics from '@react-native-firebase/analytics';
 
 import {
   Colors,
@@ -79,6 +82,68 @@ function App(): JSX.Element {
           <Section title="Debug">
             <DebugInstructions />
           </Section>
+          <Button
+            title="Send event: login"
+            onPress={async () =>
+              await analytics().logEvent('login', {
+                method: 'email'
+              })
+            }
+          />
+          <Button
+            title="Send event: scan_barcode"
+            onPress={async () =>
+              await analytics().logEvent('scan_barcode', {
+                code: '711065'
+              })
+            }
+          />
+          <Button
+            title="Send event: add_to_cart"
+            onPress={async () =>
+              await analytics().logEvent('add_to_cart', {
+                custom_param_cart_id: '1234',
+                items: [
+                  {
+                    item_id: '67891',
+                    item_name: 'Donut Friday Scented Mug',
+                    item_brand: 'Google',
+                    coupon: '10%_off',
+                    discount: 12.5,
+                    item_category: 'Apparel',
+                    item_devis: "oui",
+                    item_list_name: "Liste de produits"
+                  }
+                ]
+              })
+            }
+          />
+          <Button
+            title="Send event: purchase"
+            onPress={async () =>
+              await analytics().logEvent('purchase', {
+                transaction_id: '26113805',
+                custom_param: '1234',
+                items: [
+                  {
+                    item_id: '123456',
+                    item_name: 'Donut Friday Scented T-Shirt',
+                    item_custom_param: '6789',
+                    item_flags: 'PMR/Produit nouveau'
+                  },
+                  {
+                    item_id: '67890',
+                    item_name: 'Donut Friday Scented Mug',
+                    item_brand: 'Google',
+                    coupon: '10%_off',
+                    discount: 12.5,
+                    item_category: 'Apparel',
+                    item_devis: "oui"
+                  }
+                ]
+              })
+            }
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
